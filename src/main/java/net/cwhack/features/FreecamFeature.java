@@ -76,7 +76,7 @@ public class FreecamFeature extends Feature implements UpdateListener, PlayerTic
 		player.setPose(EntityPose.STANDING);
 
 		player.setOnGround(false);
-		player.flyingSpeed = speed.getValueF();
+		player.airStrafingSpeed = speed.getValueF();
 		Vec3d velocity = player.getVelocity();
 
 		if(MC.options.keyJump.isPressed())

@@ -22,7 +22,7 @@ public enum NameTagUtils
 
 	public static void onRender(MatrixStack matrices, Matrix4f projection)
 	{
-		model = matrices.peek().getModel().copy();
+		model = matrices.peek().getPositionMatrix().copy();
 		NameTagUtils.projection = projection;
 		camera = MC.gameRenderer.getCamera().getPos();
 		cameraNegated = camera.multiply(new Vec3d(-1, -1, -1));

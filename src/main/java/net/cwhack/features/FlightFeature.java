@@ -56,7 +56,7 @@ public class FlightFeature extends Feature implements UpdateListener, SendMoveme
 	{
 		ClientPlayerEntity player = MC.player;
 
-		player.flyingSpeed = speed.getValueF();
+		player.airStrafingSpeed = speed.getValueF();
 
 		player.setVelocity(0, 0, 0);
 		Vec3d velocity = player.getVelocity();

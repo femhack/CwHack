@@ -1,9 +1,6 @@
 package net.cwhack.features;
 
-import net.cwhack.events.IsFullCubeListener;
-import net.cwhack.events.PlayerTickMovementListener;
-import net.cwhack.events.SetOpaqueCubeListener;
-import net.cwhack.events.UpdateListener;
+import net.cwhack.events.*;
 import net.cwhack.feature.Feature;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -11,7 +8,7 @@ import net.minecraft.util.math.Box;
 
 import static net.cwhack.CwHack.MC;
 
-public class PearlPhaseFeature extends Feature implements UpdateListener, PlayerTickMovementListener, IsFullCubeListener, SetOpaqueCubeListener
+public class PearlPhaseFeature extends Feature implements UpdateListener, PlayerTickMovementListener, IsFullCubeListener, SetOpaqueCubeListener, PlayerJumpListener
 {
 
 	public PearlPhaseFeature()
@@ -26,6 +23,7 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 		eventManager.add(PlayerTickMovementListener.class, this);
 		eventManager.add(IsFullCubeListener.class, this);
 		eventManager.add(SetOpaqueCubeListener.class, this);
+		eventManager.add(PlayerJumpListener.class, this);
 	}
 
 	@Override
@@ -35,6 +33,7 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 		eventManager.remove(PlayerTickMovementListener.class, this);
 		eventManager.remove(IsFullCubeListener.class, this);
 		eventManager.remove(SetOpaqueCubeListener.class, this);
+		eventManager.remove(PlayerJumpListener.class, this);
 		MC.player.noClip = false;
 	}
 
@@ -75,7 +74,7 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 		player.setVelocity(0, 0, 0);
 
 		float speed = 0.02F;
-		player.flyingSpeed = speed;
+		player.airStrafingSpeed = speed;
 
 		if (MC.options.keyJump.isPressed())
 		{
@@ -85,6 +84,14 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 		{
 			player.addVelocity(0, -speed, 0);
 		}
+	}
+
+	@Override
+	public void onPlayerJump(PlayerJumpEvent event)
+	{
+		if (!collidingBlocks())
+			return;
+		event.cancel();
 	}
 
 	private boolean collidingBlocks()
@@ -101,6 +108,6 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 	{
 		Box box = MC.player.getBoundingBox();
 		Box box2 = (new Box(pos.getX(), box.minY, pos.getZ(), (double)pos.getX() + 1.0D, box.maxY, (double)pos.getZ() + 1.0D)).contract(1.0E-7D);
-		return MC.world.hasBlockCollision(MC.player, box2, (state, posx) -> state.shouldSuffocate(MC.world, posx));
+		return MC.world.canCollide(MC.player, box2);
 	}
 }

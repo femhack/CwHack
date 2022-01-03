@@ -18,7 +18,7 @@ public enum RenderUtils
 		matrixStack.translate(0.0D, 0.0D, 0.0D);
 		matrixStack.scale(scale, scale, 1);
 		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-		MC.textRenderer.draw(string, (float) x / scale, (float) y / scale, color, true, matrixStack.peek().getModel(), immediate, false, 0, 0xF000F0);
+		MC.textRenderer.draw(string, (float) x / scale, (float) y / scale, color, true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, 0xF000F0);
 		immediate.draw();
 	}
 
@@ -77,7 +77,7 @@ public enum RenderUtils
 
 	public static void fillBox(BufferBuilder bufferBuilder, Box bb, MatrixStack matrixStack)
 	{
-		Matrix4f matrix = matrixStack.peek().getModel();
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		bufferBuilder
 				.vertex(matrix, (float)bb.minX, (float)bb.minY, (float)bb.minZ)
 				.next();
@@ -171,7 +171,7 @@ public enum RenderUtils
 
 	public static void fillOutlinedBox(BufferBuilder bufferBuilder, Box bb, MatrixStack matrixStack)
 	{
-		Matrix4f matrix = matrixStack.peek().getModel();
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		bufferBuilder
 				.vertex(matrix, (float)bb.minX, (float)bb.minY, (float)bb.minZ)
 				.next();
@@ -275,7 +275,7 @@ public enum RenderUtils
 		float maxX = Math.max(x1, x2);
 		float minY = Math.min(y1, y2);
 		float maxY = Math.max(y1, y2);
-		Matrix4f matrix = matrixStack.peek().getModel();
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
 		RenderSystem.setShader(GameRenderer::getPositionShader);
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);

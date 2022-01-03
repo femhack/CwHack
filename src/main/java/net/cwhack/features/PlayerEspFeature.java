@@ -84,7 +84,7 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 
 		Vec3d start = RenderUtils.getRenderLookVec(partialTicks).add(RenderUtils.getCameraPos());
 
-		Matrix4f matrix = matrixStack.peek().getModel();
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
 
 		for (PlayerEntity e : players)
