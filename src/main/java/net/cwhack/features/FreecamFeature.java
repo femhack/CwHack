@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 
 import static net.cwhack.CwHack.MC;
 
-public class FreecamFeature extends Feature implements UpdateListener, PlayerTickMovementListener, PacketOutputListener, PacketInputListener, IsPlayerTouchingWaterListener, IsPlayerInLavaListener, SetOpaqueCubeListener, IsFullCubeListener, GameLeaveListener
+public class FreecamFeature extends Feature implements UpdateListener, PlayerTickMovementListener, PacketOutputListener, PacketInputListener, IsPlayerTouchingWaterListener, IsPlayerInLavaListener, SetOpaqueCubeListener, GameLeaveListener
 {
 
 	private final DecimalSetting speed = new DecimalSetting("speed", "speed", 1.0);
@@ -36,7 +36,6 @@ public class FreecamFeature extends Feature implements UpdateListener, PlayerTic
 		eventManager.add(IsPlayerTouchingWaterListener.class, this);
 		eventManager.add(IsPlayerInLavaListener.class, this);
 		eventManager.add(SetOpaqueCubeListener.class, this);
-		eventManager.add(IsFullCubeListener.class, this);
 		eventManager.add(GameLeaveListener.class, this);
 		if (MC.player == null)
 			return;
@@ -55,7 +54,6 @@ public class FreecamFeature extends Feature implements UpdateListener, PlayerTic
 		eventManager.remove(IsPlayerTouchingWaterListener.class, this);
 		eventManager.remove(IsPlayerInLavaListener.class, this);
 		eventManager.remove(SetOpaqueCubeListener.class, this);
-		eventManager.remove(IsFullCubeListener.class, this);
 		eventManager.remove(GameLeaveListener.class, this);
 		if (MC.player == null)
 			return;
@@ -126,12 +124,6 @@ public class FreecamFeature extends Feature implements UpdateListener, PlayerTic
 
 	@Override
 	public void onSetOpaqueCube(SetOpaqueCubeEvent event)
-	{
-		event.cancel();
-	}
-
-	@Override
-	public void onIsFullCube(IsFullCubeEvent event)
 	{
 		event.cancel();
 	}

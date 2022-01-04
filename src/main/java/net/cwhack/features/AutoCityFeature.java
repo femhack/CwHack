@@ -8,10 +8,7 @@ import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
 import net.cwhack.mixinterface.IClientPlayerInteractionManager;
 import net.cwhack.setting.DecimalSetting;
-import net.cwhack.utils.BlockUtils;
-import net.cwhack.utils.DamageUtils;
-import net.cwhack.utils.InventoryUtils;
-import net.cwhack.utils.RenderUtils;
+import net.cwhack.utils.*;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -98,7 +95,7 @@ public class AutoCityFeature extends Feature implements UpdateListener, RenderLi
 			return;
 		}
 
-		if (!shouldKeepCity())
+		if (!shouldKeepCity(city))
 		{
 			city = null;
 			return;
@@ -180,9 +177,9 @@ public class AutoCityFeature extends Feature implements UpdateListener, RenderLi
 	{
 		if (BlockUtils.hasBlock(target.getBlockPos()))
 			return true;
-		if (CWHACK.getFeatures().holeEspFeature.isFullySurrounded(target.getBlockPos()))
+		if (HoleUtils.isFullySurrounded(target.getBlockPos()))
 			return false;
-		return CWHACK.getFeatures().holeEspFeature.isSurrounded(target.getBlockPos());
+		return HoleUtils.isSurrounded(target.getBlockPos());
 	}
 
 	private Entity findTarget()
@@ -207,12 +204,13 @@ public class AutoCityFeature extends Feature implements UpdateListener, RenderLi
 				.filter(pos -> !BlockUtils.isBlock(Blocks.BEDROCK, pos))
 				.filter(pos -> BlockUtils.isBlockReachable(pos, range.getValue()))
 				.filter(pos -> !BlockUtils.hasBlock(pos.add(targetPos.subtract(pos))))
+				.filter(this::shouldKeepCity) // idk why but we need this
 				.min(Comparator.comparingDouble(pos -> Vec3d.of(pos).squaredDistanceTo(Vec3d.of(target.getBlockPos())))).orElse(null);
 	}
 
-	private boolean shouldKeepCity()
+	private boolean shouldKeepCity(BlockPos pos)
 	{
-		return BlockUtils.hasBlock(city) && target.squaredDistanceTo(Vec3d.of(city)) <= 4.0f && BlockUtils.isBlockReachable(city, range.getValue());
+		return BlockUtils.hasBlock(pos) && target.squaredDistanceTo(Vec3d.of(pos)) <= 4.0f && BlockUtils.isBlockReachable(pos, range.getValue());
 	}
 
 	@Override

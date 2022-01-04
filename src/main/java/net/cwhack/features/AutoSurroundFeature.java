@@ -6,6 +6,7 @@ import net.cwhack.feature.Feature;
 import net.cwhack.utils.BlockUtils;
 import net.cwhack.utils.ChatUtils;
 import net.cwhack.utils.InventoryUtils;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 
@@ -41,7 +42,9 @@ public class AutoSurroundFeature extends Feature implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if (MC.player.isUsingItem() || MC.player.isDead())
+		if (MC.player.isUsingItem() || MC.player.isDead() ||
+				!BlockUtils.isBlock(Blocks.OBSIDIAN, MC.player.getBlockPos().down())
+						&& !BlockUtils.isBlock(Blocks.BEDROCK, MC.player.getBlockPos().down()))
 			return;
 
 		int has = (int) surround.stream().filter(e -> BlockUtils.hasBlock(MC.player.getBlockPos().add(e))).count();

@@ -5,15 +5,14 @@ import net.cwhack.events.RenderListener;
 import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
 import net.cwhack.utils.BlockUtils;
+import net.cwhack.utils.HoleUtils;
 import net.cwhack.utils.RenderUtils;
 import net.cwhack.utils.RotationUtils;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vec3i;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -48,10 +47,10 @@ public class HoleEspFeature extends Feature implements UpdateListener, RenderLis
 	@Override
 	public void onUpdate()
 	{
-		deepHoles = getPossibleHoles().filter(this::isFullySurrounded)
+		deepHoles = getPossibleHoles().filter(HoleUtils::isFullySurrounded)
 				.collect(Collectors.toCollection(ArrayList::new));
 
-		shallowHoles = getPossibleHoles().filter(pos -> isSurrounded(pos) && !isFullySurrounded(pos))
+		shallowHoles = getPossibleHoles().filter(pos -> HoleUtils.isSurrounded(pos) && HoleUtils.isFullySurrounded(pos))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
@@ -70,26 +69,6 @@ public class HoleEspFeature extends Feature implements UpdateListener, RenderLis
 				RotationUtils.getEyesBlockPos().add(16, 8, 16))
 //				.filter(pos -> pos.getY() >= 0 && pos.getY() <= 4)
 				.filter(pos -> !BlockUtils.hasBlock(pos));
-	}
-
-	public boolean isFullySurrounded(BlockPos pos)
-	{
-		return BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(1, 0, 0)))
-				&& BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, 0, 1)))
-				&& BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(-1, 0, 0)))
-				&& BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, 0, -1)))
-				&& BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, -1, 0)))
-				&& !BlockUtils.hasBlock(pos.add(0, 1, 0));
-	}
-
-	public boolean isSurrounded(BlockPos pos)
-	{
-		return (BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(1, 0, 0))) || BlockUtils.isBlock(Blocks.OBSIDIAN, pos.add(new Vec3i(1, 0, 0))))
-				&& (BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, 0, 1))) || BlockUtils.isBlock(Blocks.OBSIDIAN, pos.add(new Vec3i(0, 0, 1))))
-				&& (BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(-1, 0, 0))) || BlockUtils.isBlock(Blocks.OBSIDIAN, pos.add(new Vec3i(-1, 0, 0))))
-				&& (BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, 0, -1))) || BlockUtils.isBlock(Blocks.OBSIDIAN, pos.add(new Vec3i(0, 0, -1))))
-				&& (BlockUtils.isBlock(Blocks.BEDROCK, pos.add(new Vec3i(0, -1, 0))) || BlockUtils.isBlock(Blocks.OBSIDIAN, pos.add(new Vec3i(0, -1, 0))))
-				&& !BlockUtils.hasBlock(pos.add(0, 1, 0));
 	}
 
 	private void drawHole(MatrixStack matrixStack, BlockPos pos, Vec3f color)

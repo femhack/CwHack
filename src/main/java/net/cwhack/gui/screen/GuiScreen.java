@@ -107,8 +107,7 @@ public class GuiScreen extends Screen
 	{
 		switch (button)
 		{
-			case 0:
-			{
+			case 0 -> {
 				var ref = new Object()
 				{
 					Feature isOnFeature = null;
@@ -122,10 +121,8 @@ public class GuiScreen extends Screen
 				});
 				if (ref.isOnFeature != null)
 					MC.setScreen(ref.isOnFeature.getSettingScreen());
-				break;
 			}
-			case 1:
-			{
+			case 1 -> {
 				var ref = new Object()
 				{
 					Feature isOnFeature = null;
@@ -139,10 +136,9 @@ public class GuiScreen extends Screen
 				});
 				if (ref.isOnFeature != null)
 					ref.isOnFeature.toggle();
-				break;
 			}
-			default:
-				break;
+			default -> {
+			}
 		}
 		return super.mouseReleased(mouseX, mouseY, button);
 	}

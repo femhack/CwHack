@@ -5,6 +5,7 @@ import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
 import net.cwhack.setting.IntegerSetting;
 import net.cwhack.utils.BlockUtils;
+import net.cwhack.utils.HoleUtils;
 import net.cwhack.utils.InventoryUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -172,7 +173,7 @@ public class AutoCrystalFeature extends Feature implements UpdateListener, KeyPr
 			if (fastBreak.isMining())
 				fastBreak.cancelMining();
 		}
-		else if (!MC.world.getDimension().isRespawnAnchorWorking() && CWHACK.getFeatures().holeEspFeature.isSurrounded(target.getBlockPos()) && (!BlockUtils.hasBlock(target.getBlockPos().up(2)) || BlockUtils.isBlock(Blocks.RESPAWN_ANCHOR, target.getBlockPos().up(2))))
+		else if (!MC.world.getDimension().isRespawnAnchorWorking() && HoleUtils.isSurrounded(target.getBlockPos()) && (!BlockUtils.hasBlock(target.getBlockPos().up(2)) || BlockUtils.isBlock(Blocks.RESPAWN_ANCHOR, target.getBlockPos().up(2))) && InventoryUtils.hasItemInHotbar(item -> item == Items.RESPAWN_ANCHOR) && InventoryUtils.hasItemInHotbar(item -> item == Items.GLOWSTONE))
 		{
 			killAura.setEnabled(false);
 			crystalAura.setEnabled(false);
