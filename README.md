@@ -11,4 +11,4 @@ For setup instructions please see the [fabric wiki page](https://fabricmc.net/wi
 
 ## License
 
-The source code of this project is licensed under Attribution-NonCommercial-NoDerivs 3.0 Unported. Learn more at [here](https://creativecommons.org/licenses/by-nc-nd/3.0/ "license").
+Unauthorized copying or distribution of the source code via any medium is prohibited.
