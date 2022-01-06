@@ -4,6 +4,7 @@ import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
 import net.cwhack.setting.IntegerSetting;
 import net.cwhack.utils.CrystalUtils;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -19,19 +20,23 @@ import static net.cwhack.CwHack.MC;
 public class CwCrystalRewriteFeature extends Feature implements UpdateListener
 {
 
+	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystal", 0);
 	private final IntegerSetting crystalBreakInterval = new IntegerSetting("crystalBreakInterval", "the speed of attacking the crystal", 0);
 
+	private int crystalPlaceClock = 0;
 	private int crystalBreakClock = 0;
 
 	public CwCrystalRewriteFeature()
 	{
 		super("CwCrystalRewrite", "rewriting for vulcan bypass");
+		addSetting(crystalPlaceInterval);
 		addSetting(crystalBreakInterval);
 	}
 
 	@Override
 	public void onEnable()
 	{
+		crystalPlaceClock = 0;
 		crystalBreakClock = 0;
 		eventManager.add(UpdateListener.class, this);
 	}
@@ -47,49 +52,43 @@ public class CwCrystalRewriteFeature extends Feature implements UpdateListener
 		return MC.world.getPlayers().parallelStream()
 				.filter(e -> MC.player != e)
 				.filter(e -> e.squaredDistanceTo(MC.player) < 36)
-				.anyMatch(e -> e.isDead());
+				.anyMatch(LivingEntity::isDead);
 	}
 
 	@Override
 	public void onUpdate()
 	{
+		boolean dontPlaceCrystal = crystalPlaceClock != 0;
 		boolean dontBreakCrystal = crystalBreakClock != 0;
+		if (dontPlaceCrystal)
+			crystalPlaceClock--;
 		if (dontBreakCrystal)
 			crystalBreakClock--;
-		CrystalAuraFeature ca = CWHACK.getFeatures().crystalAuraFeature;
-		if (!MC.player.isHolding(Items.END_CRYSTAL))
+		ItemStack mainHandStack = MC.player.getMainHandStack();
+		if (!mainHandStack.isOf(Items.END_CRYSTAL))
 			return;
 		if (isDeadBodyNearby())
 			return;
+
 		if (MC.crosshairTarget instanceof BlockHitResult hit)
 		{
 			BlockPos block = hit.getBlockPos();
-			if (CrystalUtils.canPlaceCrystalServer(block))
+			if (!dontPlaceCrystal && CrystalUtils.canPlaceCrystalServer(block))
 			{
-				ItemStack mainHandStack = MC.player.getMainHandStack();
-				boolean isMainHand = mainHandStack.isOf(Items.END_CRYSTAL);
-				if (isMainHand || mainHandStack.isEmpty())
-				{
-					Hand hand = isMainHand ? Hand.MAIN_HAND : Hand.OFF_HAND;
-					ActionResult result = MC.interactionManager.interactBlock(MC.player, MC.world, hand, hit);
-					MC.interactionManager.interactItem(MC.player, MC.world, hand);
-
-					if (result == ActionResult.SUCCESS)
-						MC.player.swingHand(hand);
-				}
+				crystalPlaceClock = crystalPlaceInterval.getValue();
+				ActionResult result = MC.interactionManager.interactBlock(MC.player, MC.world, Hand.MAIN_HAND, hit);
+				if (result == ActionResult.SUCCESS)
+					MC.player.swingHand(Hand.MAIN_HAND);
 			}
 		}
 		if (MC.crosshairTarget instanceof EntityHitResult hit)
 		{
-			if (hit.getEntity() instanceof EndCrystalEntity crystal)
+			if (!dontBreakCrystal && hit.getEntity() instanceof EndCrystalEntity crystal)
 			{
-				if (!dontBreakCrystal)
-				{
-					crystalBreakClock = crystalBreakInterval.getValue();
-					MC.interactionManager.attackEntity(MC.player, crystal);
-					MC.player.swingHand(Hand.MAIN_HAND);
-					CWHACK.getCrystalDataTracker().recordAttack(crystal);
-				}
+				crystalBreakClock = crystalBreakInterval.getValue();
+				MC.interactionManager.attackEntity(MC.player, crystal);
+				MC.player.swingHand(Hand.MAIN_HAND);
+				CWHACK.getCrystalDataTracker().recordAttack(crystal);
 			}
 		}
 	}
