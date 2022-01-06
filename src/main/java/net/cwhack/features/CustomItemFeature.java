@@ -16,9 +16,9 @@ import static net.cwhack.CwHack.MC;
 
 public class CustomItemFeature extends Feature implements UpdateListener
 {
-	private final TextSetting itemName = new TextSetting("itemName", "the item name", "");
-	private final TextSetting nbt = new TextSetting("nbt", "the nbt", "");
-	private final IntegerSetting count = new IntegerSetting("count", "the number of the item stack", 1);
+	private final TextSetting itemName = new TextSetting("itemName", "the item name", "", this);
+	private final TextSetting nbt = new TextSetting("nbt", "the nbt", "", this);
+	private final IntegerSetting count = new IntegerSetting("count", "the number of the item stack", 1, this);
 
 	public CustomItemFeature()
 	{

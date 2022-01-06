@@ -15,7 +15,7 @@ import static net.cwhack.CwHack.MC;
 public class FreecamFeature extends Feature implements UpdateListener, PlayerTickMovementListener, PacketOutputListener, PacketInputListener, IsPlayerTouchingWaterListener, IsPlayerInLavaListener, SetOpaqueCubeListener, GameLeaveListener
 {
 
-	private final DecimalSetting speed = new DecimalSetting("speed", "speed", 1.0);
+	private final DecimalSetting speed = new DecimalSetting("speed", "speed", 1.0, this);
 
 	private Vec3d oldPos;
 	private float oldYaw;

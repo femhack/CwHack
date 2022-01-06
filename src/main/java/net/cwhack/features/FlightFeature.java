@@ -16,8 +16,8 @@ import static net.cwhack.CwHack.MC;
 public class FlightFeature extends Feature implements UpdateListener, SendMovementPacketsListener, PreMotionListener, PostMotionListener
 {
 
-	private final DecimalSetting speed = new DecimalSetting("speed", "the speed of flying", 0.5);
-	private final EnumSetting<BypassSetting> bypass = new EnumSetting<>("bypass", "the bypass method this module will use", BypassSetting.values(), BypassSetting.NONE);
+	private final DecimalSetting speed = new DecimalSetting("speed", "the speed of flying", 0.5, this);
+	private final EnumSetting<BypassSetting> bypass = new EnumSetting<>("bypass", "the bypass method this module will use", BypassSetting.values(), BypassSetting.NONE, this);
 
 	enum BypassSetting
 	{

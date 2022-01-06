@@ -28,13 +28,13 @@ public class AutoCrystalFeature extends Feature implements UpdateListener, KeyPr
 	private KillAuraFeature killAura;
 	private AnchorAuraFeature anchorAura;
 
-	private final IntegerSetting killAuraHotkey = new IntegerSetting("killauraHotkey", "killaura hotkey", -1);
+	private final IntegerSetting killAuraHotkey = new IntegerSetting("killauraHotkey", "killaura hotkey", -1, this);
 	private boolean usingKillaura = false;
 
-	private final IntegerSetting gapHotkey = new IntegerSetting("gapHotkey", "gap hotkey", -1);
+	private final IntegerSetting gapHotkey = new IntegerSetting("gapHotkey", "gap hotkey", -1, this);
 	private boolean gapping = false;
 
-	private final IntegerSetting chorusHotkey = new IntegerSetting("chorusHotkey", "chorus hotkey", -1);
+	private final IntegerSetting chorusHotkey = new IntegerSetting("chorusHotkey", "chorus hotkey", -1, this);
 	private boolean usingChorusFruit = false;
 
 	private AutoCrystalState state = AutoCrystalState.CRYSTALLING;

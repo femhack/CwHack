@@ -20,8 +20,8 @@ import static net.cwhack.CwHack.MC;
 public class FastBreakFeature extends Feature implements PacketOutputListener, UpdateListener
 {
 
-	private DecimalSetting range = new DecimalSetting("range", "how far can you reach the block", 4.5);
-	private IntegerSetting delay = new IntegerSetting("delay", "the delay for it to send stop digging packet", 0);
+	private DecimalSetting range = new DecimalSetting("range", "how far can you reach the block", 4.5, this);
+	private IntegerSetting delay = new IntegerSetting("delay", "the delay for it to send stop digging packet", 0, this);
 
 	private int delayClock = 0;
 	private boolean letgo = false;

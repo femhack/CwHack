@@ -1,17 +1,19 @@
 package net.cwhack.setting;
 
+import net.cwhack.feature.Feature;
+
 public class DecimalSetting extends Setting<Double>
 {
 	private double value;
 
-	public DecimalSetting(String name, String description, double defaultValue)
+	public DecimalSetting(String name, String description, double defaultValue, Feature feature)
 	{
-		super(name, description);
+		super(name, description, feature);
 		this.value = defaultValue;
 	}
 
 	@Override
-	public void loadFromString(String string)
+	public void loadFromStringInternal(String string)
 	{
 		value = Double.parseDouble(string);
 	}

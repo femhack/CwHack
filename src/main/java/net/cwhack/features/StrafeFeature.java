@@ -14,8 +14,8 @@ import static net.cwhack.CwHack.MC;
 public class StrafeFeature extends Feature implements UpdateListener, PlayerJumpListener
 {
 
-	private final DecimalSetting ncpSpeed = new DecimalSetting("speed", "speed of strafing", 0.25);
-	private final IntegerSetting disableAfter = new IntegerSetting("disableAfter", "disable after certain amount of time", 0);
+	private final DecimalSetting ncpSpeed = new DecimalSetting("speed", "speed of strafing", 0.25, this);
+	private final IntegerSetting disableAfter = new IntegerSetting("disableAfter", "disable after certain amount of time", 0, this);
 
 	private int clock = 0;
 

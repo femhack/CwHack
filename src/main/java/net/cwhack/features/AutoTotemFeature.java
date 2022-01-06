@@ -19,8 +19,8 @@ import static net.cwhack.CwHack.MC;
 
 public class AutoTotemFeature extends Feature implements UpdateListener
 {
-	private IntegerSetting mode = new IntegerSetting("mode", "mode 0: fast totem, mode 1: inv swap, mode 2: hotbar swap", 0);
-	private IntegerSetting delay = new IntegerSetting("delay", "the delay for inv swap or hotbar swap", 0);
+	private IntegerSetting mode = new IntegerSetting("mode", "mode 0: fast totem, mode 1: inv swap, mode 2: hotbar swap", 0, this);
+	private IntegerSetting delay = new IntegerSetting("delay", "the delay for inv swap or hotbar swap", 0, this);
 
 	private int nextTickSlot;
 	private int totems;

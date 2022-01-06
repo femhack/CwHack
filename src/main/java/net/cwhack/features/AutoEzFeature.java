@@ -10,8 +10,8 @@ import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
 public class AutoEzFeature extends Feature implements PacketInputListener
 {
-	private final TextSetting ezpop = new TextSetting("ezpopText", "This will be sent in chat when someone pops a totem", "ez pop");
-	private final TextSetting ggez = new TextSetting("ggezText", "This will be sent in chat when someone dies", "gg ez no re");
+	private final TextSetting ezpop = new TextSetting("ezpopText", "This will be sent in chat when someone pops a totem", "ez pop", this);
+	private final TextSetting ggez = new TextSetting("ggezText", "This will be sent in chat when someone dies", "gg ez no re", this);
 
 	public AutoEzFeature()
 	{

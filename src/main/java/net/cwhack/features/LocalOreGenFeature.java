@@ -7,7 +7,7 @@ import net.cwhack.setting.TextSetting;
 public class LocalOreGenFeature extends Feature implements RenderListener
 {
 
-	private final TextSetting seed = new TextSetting("seed", "the seed used for ore generation", "");
+	private final TextSetting seed = new TextSetting("seed", "the seed used for ore generation", "", this);
 
 	public LocalOreGenFeature()
 	{

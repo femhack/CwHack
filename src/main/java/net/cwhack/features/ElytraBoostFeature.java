@@ -14,7 +14,7 @@ import static net.cwhack.CwHack.MC;
 public class ElytraBoostFeature extends Feature implements UpdateListener
 {
 
-	private final DecimalSetting speed = new DecimalSetting("speed", "speed", 1.0);
+	private final DecimalSetting speed = new DecimalSetting("speed", "speed", 1.0, this);
 
 	public ElytraBoostFeature()
 	{

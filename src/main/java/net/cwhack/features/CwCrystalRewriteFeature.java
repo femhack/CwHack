@@ -20,8 +20,8 @@ import static net.cwhack.CwHack.MC;
 public class CwCrystalRewriteFeature extends Feature implements UpdateListener
 {
 
-	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystal", 0);
-	private final IntegerSetting crystalBreakInterval = new IntegerSetting("crystalBreakInterval", "the speed of attacking the crystal", 0);
+	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystal", 0, this);
+	private final IntegerSetting crystalBreakInterval = new IntegerSetting("crystalBreakInterval", "the speed of attacking the crystal", 0, this);
 
 	private int crystalPlaceClock = 0;
 	private int crystalBreakClock = 0;

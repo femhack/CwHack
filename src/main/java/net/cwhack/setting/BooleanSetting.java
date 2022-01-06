@@ -1,12 +1,14 @@
 package net.cwhack.setting;
 
+import net.cwhack.feature.Feature;
+
 public class BooleanSetting extends Setting<Boolean>
 {
 	private boolean value;
 
-	public BooleanSetting(String name, String description, boolean value)
+	public BooleanSetting(String name, String description, boolean value, Feature feature)
 	{
-		super(name, description);
+		super(name, description, feature);
 		this.value = value;
 	}
 
@@ -17,7 +19,7 @@ public class BooleanSetting extends Setting<Boolean>
 	}
 
 	@Override
-	public void loadFromString(String string)
+	public void loadFromStringInternal(String string)
 	{
 		value = Boolean.parseBoolean(string);
 	}

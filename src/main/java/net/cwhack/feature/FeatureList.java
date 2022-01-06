@@ -27,6 +27,7 @@ public class FeatureList
 	public final ArmorHudFeature armorHudFeature = new ArmorHudFeature();
 	public final AutoAnchorFeature autoAnchorFeature = new AutoAnchorFeature();
 	public final AutoCityFeature autoCityFeature = new AutoCityFeature();
+	public final AutoClickerFeature autoClickerFeature = new AutoClickerFeature();
 	public final AutoCopeFeature autoCopeFeature = new AutoCopeFeature();
 	public final AutoCrystalFeature autoCrystalFeature = new AutoCrystalFeature();
 	public final AutoEzFeature autoEzFeature = new AutoEzFeature();

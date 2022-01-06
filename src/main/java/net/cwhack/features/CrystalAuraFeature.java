@@ -36,16 +36,16 @@ import static net.cwhack.CwHack.MC;
 public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPressListener, PostMotionListener, RenderListener
 {
 
-	private final IntegerSetting crystalBreakDelay = new IntegerSetting("crystalBreakDelay", "delay attacking the crystal after it is spawned", 0);
-	private final IntegerSetting crystalBreakInterval = new IntegerSetting("crystalBreakInterval", "the speed of attacking the crystal", 0);
-	private final IntegerSetting unmarkBrokenCrystalDelay = new IntegerSetting("unmarkBrokenCrystalDelay", "after a crystal is attacked, the crystalAttacked flag will be turned off again after this delay. Set to 0 to turn off.", 5);
-	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystals", 0);
-	private final DecimalSetting placeRange = new DecimalSetting("placeRange", "the attack and place range", 4.5);
-	private final DecimalSetting breakRange = new DecimalSetting("breakRange", "the attack and place range", 3);
-	private final DecimalSetting maxSelfDamage = new DecimalSetting("maxSelfDamage", "the maximum damage allowed to deal to yourself", 8);
-	private final DecimalSetting minDamage = new DecimalSetting("minDamage", "the minimum damage allowed to deal to your enemy", 8);
-	private final IntegerSetting allowSuicide = new IntegerSetting("allowSuicide", "allow the crystal to pop yourself or kys", 0);
-	private final IntegerSetting facePlaceHotkey = new IntegerSetting("facePlaceHotkey", "when this key is down face place will be enabled, set to -1 to ignore this option", -1);
+	private final IntegerSetting crystalBreakDelay = new IntegerSetting("crystalBreakDelay", "delay attacking the crystal after it is spawned", 0, this);
+	private final IntegerSetting crystalBreakInterval = new IntegerSetting("crystalBreakInterval", "the speed of attacking the crystal", 0, this);
+	private final IntegerSetting unmarkBrokenCrystalDelay = new IntegerSetting("unmarkBrokenCrystalDelay", "after a crystal is attacked, the crystalAttacked flag will be turned off again after this delay. Set to 0 to turn off.", 5, this);
+	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystals", 0, this);
+	private final DecimalSetting placeRange = new DecimalSetting("placeRange", "the attack and place range", 4.5, this);
+	private final DecimalSetting breakRange = new DecimalSetting("breakRange", "the attack and place range", 3, this);
+	private final DecimalSetting maxSelfDamage = new DecimalSetting("maxSelfDamage", "the maximum damage allowed to deal to yourself", 8, this);
+	private final DecimalSetting minDamage = new DecimalSetting("minDamage", "the minimum damage allowed to deal to your enemy", 8, this);
+	private final IntegerSetting allowSuicide = new IntegerSetting("allowSuicide", "allow the crystal to pop yourself or kys", 0, this);
+	private final IntegerSetting facePlaceHotkey = new IntegerSetting("facePlaceHotkey", "when this key is down face place will be enabled, set to -1 to ignore this option", -1, this);
 
 	private boolean isFacePlacing = false;
 

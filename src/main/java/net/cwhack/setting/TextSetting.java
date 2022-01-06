@@ -1,13 +1,15 @@
 package net.cwhack.setting;
 
+import net.cwhack.feature.Feature;
+
 public class TextSetting extends Setting<String>
 {
 
 	private String value;
 
-	public TextSetting(String name, String description, String value)
+	public TextSetting(String name, String description, String value, Feature feature)
 	{
-		super(name, description);
+		super(name, description, feature);
 		this.value = value;
 	}
 
@@ -23,7 +25,7 @@ public class TextSetting extends Setting<String>
 	}
 
 	@Override
-	public void loadFromString(String string)
+	public void loadFromStringInternal(String string)
 	{
 		value = string;
 	}

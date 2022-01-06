@@ -8,7 +8,7 @@ import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
 public class AutoCopeFeature extends Feature implements PacketInputListener
 {
-	private TextSetting cope = new TextSetting("copeText", "This will be sent in chat when you die", "faggot kys");
+	private TextSetting cope = new TextSetting("copeText", "This will be sent in chat when you die", "faggot kys", this);
 	public AutoCopeFeature()
 	{
 		super("AutoCope", "Automatically sends an excuse in game chat when you die");

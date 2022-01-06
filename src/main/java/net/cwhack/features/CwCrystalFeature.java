@@ -33,10 +33,10 @@ import static net.cwhack.CwHack.MC;
 public class CwCrystalFeature extends Feature implements UpdateListener, PostMotionListener
 {
 
-	private final DecimalSetting range = new DecimalSetting("range", "the maximum distance you will attack a crystal", 4);
-	private final DecimalSetting maxAngle = new DecimalSetting("maxAngle", "the maximum angle you can flick on a crystal", 60);
-	private final IntegerSetting cooldown = new IntegerSetting("cooldown", "cooldown between each attack", 0);
-	private final IntegerSetting placeDelay = new IntegerSetting("placeDelay", "place cooldown after attacking the crystal", 0);
+	private final DecimalSetting range = new DecimalSetting("range", "the maximum distance you will attack a crystal", 4, this);
+	private final DecimalSetting maxAngle = new DecimalSetting("maxAngle", "the maximum angle you can flick on a crystal", 60, this);
+	private final IntegerSetting cooldown = new IntegerSetting("cooldown", "cooldown between each attack", 0, this);
+	private final IntegerSetting placeDelay = new IntegerSetting("placeDelay", "place cooldown after attacking the crystal", 0, this);
 
 	private Random rand = new Random();
 

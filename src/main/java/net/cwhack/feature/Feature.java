@@ -96,7 +96,13 @@ public abstract class Feature
 	{
 
 	}
+
 	protected void onDisable()
+	{
+
+	}
+
+	public void onChangeSetting(Setting setting)
 	{
 
 	}

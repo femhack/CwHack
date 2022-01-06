@@ -15,7 +15,7 @@ import static net.cwhack.CwHack.MC;
 public class PingSpoofFeature extends Feature implements PacketOutputListener, PacketInputListener
 {
 
-	private IntegerSetting ping = new IntegerSetting("ping", "the ping that will be added onto your current ping", 0);
+	private IntegerSetting ping = new IntegerSetting("ping", "the ping that will be added onto your current ping", 0, this);
 
 	private ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1000);
 

@@ -20,9 +20,9 @@ import static net.cwhack.CwHack.MC;
 public class KillAuraFeature extends Feature implements UpdateListener, PostMotionListener
 {
 
-	private final DecimalSetting range = new DecimalSetting("range", "the range you will attack the player", 3.0);
-	private final IntegerSetting critical = new IntegerSetting("critical", "whether or not to use critical hits", 1);
-	private final DecimalSetting cooldown = new DecimalSetting("cooldown", "the required cooldown progress for the next attack", 1.0);
+	private final DecimalSetting range = new DecimalSetting("range", "the range you will attack the player", 3.0, this);
+	private final IntegerSetting critical = new IntegerSetting("critical", "whether or not to use critical hits", 1, this);
+	private final DecimalSetting cooldown = new DecimalSetting("cooldown", "the required cooldown progress for the next attack", 1.0, this);
 
 	private Entity target;
 	private boolean overridingTarget = false;

@@ -23,7 +23,7 @@ import static net.cwhack.CwHack.MC;
 public class NameTagFeature extends Feature implements RenderListener, GUIRenderListener, RenderNameTagListener, UpdateListener
 {
 
-	private DecimalSetting scale = new DecimalSetting("scale", "scale of the nametags", 1.0);
+	private DecimalSetting scale = new DecimalSetting("scale", "scale of the nametags", 1.0, this);
 
 	private ArrayList<Entity> players = new ArrayList<>();
 

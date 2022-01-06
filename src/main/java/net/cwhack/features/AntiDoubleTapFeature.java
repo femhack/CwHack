@@ -17,7 +17,7 @@ import static net.cwhack.CwHack.MC;
 public class AntiDoubleTapFeature extends Feature implements UpdateListener
 {
 
-	private final DecimalSetting range = new DecimalSetting("range", "how far does the enemy have to be in order to trigger it", 4.0);
+	private final DecimalSetting range = new DecimalSetting("range", "how far does the enemy have to be in order to trigger it", 4.0, this);
 
 	public AntiDoubleTapFeature()
 	{

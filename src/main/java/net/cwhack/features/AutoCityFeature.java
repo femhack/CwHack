@@ -34,7 +34,7 @@ import static net.cwhack.CwHack.MC;
 public class AutoCityFeature extends Feature implements UpdateListener, RenderListener
 {
 
-	private final DecimalSetting range = new DecimalSetting("range", "the range it will city", 4.5);
+	private final DecimalSetting range = new DecimalSetting("range", "the range it will city", 4.5, this);
 
 	private Entity target;
 	private BlockPos city;

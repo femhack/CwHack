@@ -35,9 +35,9 @@ import static net.cwhack.CwHack.MC;
 public class AnchorAuraFeature extends Feature implements UpdateListener, RenderListener
 {
 
-	private final DecimalSetting range = new DecimalSetting("range", "range", 4.5);
-	private final DecimalSetting maxSelfDamage = new DecimalSetting("maxSelfDamage", "the maximum self damage you will take from it", 8.0);
-	private final IntegerSetting cooldown = new IntegerSetting("cooldown", "cooldown", 10);
+	private final DecimalSetting range = new DecimalSetting("range", "range", 4.5, this);
+	private final DecimalSetting maxSelfDamage = new DecimalSetting("maxSelfDamage", "the maximum self damage you will take from it", 8.0, this);
+	private final IntegerSetting cooldown = new IntegerSetting("cooldown", "cooldown", 10, this);
 
 	private Entity target;
 	private boolean overridingTarget = false;
