@@ -1,60 +1,57 @@
 package net.cwhack.features;
 
+import net.cwhack.events.SendMovementPacketsListener;
 import net.cwhack.events.StopUsingItemListener;
-import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
-import net.cwhack.utils.ChatUtils;
+import net.cwhack.setting.IntegerSetting;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import static net.cwhack.CwHack.MC;
 
-public class Bow32kFeature extends Feature implements StopUsingItemListener, UpdateListener
+public class Bow32kFeature extends Feature implements StopUsingItemListener, SendMovementPacketsListener
 {
-	// testing
-	private boolean activated = false;
-	private boolean letgo = false;
+
+	private final IntegerSetting power = new IntegerSetting("power", "the power of the hack", 50);
 
 	public Bow32kFeature()
 	{
 		super("Bow32k", "one shot someone with bow");
+		addSetting(power);
 	}
 
 	@Override
 	protected void onEnable()
 	{
 		eventManager.add(StopUsingItemListener.class, this);
-		eventManager.add(UpdateListener.class, this);
+		eventManager.add(SendMovementPacketsListener.class, this);
 	}
 
 	@Override
 	protected void onDisable()
 	{
 		eventManager.remove(StopUsingItemListener.class, this);
-		eventManager.remove(UpdateListener.class, this);
+		eventManager.remove(SendMovementPacketsListener.class, this);
 	}
 
 	@Override
 	public void onStopUsingItem(StopUsingItemEvent event)
 	{
-		if (letgo)
+		if (!MC.player.getActiveItem().isOf(Items.BOW))
 			return;
-		if (!MC.player.isHolding(Items.BOW))
-			return;
-		activated = true;
-		ChatUtils.info("pu");
-
-		MC.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(MC.player.getX(), MC.player.getY() + 1.0, MC.player.getZ(), MC.player.isOnGround()));
+		int powerI = power.getValue();
+		for (int i = 0; i < powerI; i++)
+		{
+			MC.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(MC.player.getX(), MC.player.getY(), MC.player.getZ(), true));
+			MC.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(MC.player.getX(), MC.player.getY() + 0.01, MC.player.getZ(), false));
+		}
 	}
 
 	@Override
-	public void onUpdate()
+	public void onSendMovementPackets(SendMovementPacketsEvent event)
 	{
-		if (!activated)
+		if (!MC.player.getActiveItem().isOf(Items.BOW))
 			return;
-		activated = false;
-		letgo = true;
-		MC.interactionManager.stopUsingItem(MC.player);
-		letgo = false;
+		MC.player.setSprinting(true);
 	}
 }
