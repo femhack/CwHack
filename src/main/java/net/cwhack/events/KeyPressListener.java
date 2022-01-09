@@ -1,6 +1,6 @@
 package net.cwhack.events;
 
-import net.cwhack.event.Event;
+import net.cwhack.event.CancellableEvent;
 import net.cwhack.event.Listener;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ public interface KeyPressListener extends Listener
 {
 	void onKeyPress(KeyPressEvent event);
 
-	class KeyPressEvent extends Event<KeyPressListener>
+	class KeyPressEvent extends CancellableEvent<KeyPressListener>
 	{
 
 		private int keyCode, scanCode, action, modifiers;

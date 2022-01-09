@@ -69,6 +69,7 @@ public class KeybindManager implements KeyPressListener
 			if (keybind.shouldActiveOnRelease() && event.getAction() == GLFW.GLFW_RELEASE)
 				keybind.execute();
 		}
+		//event.cancel();
 	}
 
 	private void addDefaultKeybinds()

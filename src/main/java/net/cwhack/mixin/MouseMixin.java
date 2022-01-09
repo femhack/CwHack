@@ -14,12 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mouse.class)
 public abstract class MouseMixin implements IMouse
 {
-	@Inject(at = @At("HEAD"), method = "onMouseButton")
+	@Inject(at = @At("HEAD"), method = "onMouseButton", cancellable = true)
 	private void onOnMouseButton(long window, int button, int action, int mods, CallbackInfo ci)
 	{
 		KeyPressEvent event = new KeyPressEvent(button + GLFW.GLFW_KEY_LAST + 1, 0, action, mods);
-
 		EventManager.fire(event);
+		if (event.isCancelled())
+			ci.cancel();
 	}
 
 	@Shadow

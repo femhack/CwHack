@@ -1,6 +1,7 @@
 package net.cwhack.mixin;
 
 import net.cwhack.event.EventManager;
+import net.cwhack.events.FrameBeginListener.FrameBeginEvent;
 import net.cwhack.events.GameLeaveListener.GameLeaveEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,5 +23,11 @@ public class MinecraftClientMixin
 		if (world != null) {
 			EventManager.fire(new GameLeaveEvent());
 		}
+	}
+
+	@Inject(method = "render(Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;updateMouse()V", shift = At.Shift.AFTER))
+	private void onRender(boolean tick, CallbackInfo info)
+	{
+		EventManager.fire(new FrameBeginEvent());
 	}
 }

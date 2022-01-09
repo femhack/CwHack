@@ -31,6 +31,7 @@ public class FeatureList
 	public final AutoCopeFeature autoCopeFeature = new AutoCopeFeature();
 	public final AutoCrystalFeature autoCrystalFeature = new AutoCrystalFeature();
 	public final AutoEzFeature autoEzFeature = new AutoEzFeature();
+	public final AutoHeadBobFeature autoHeadBobFeature = new AutoHeadBobFeature();
 	public final AutoPearlFeature autoPearlFeature = new AutoPearlFeature();
 	public final AutoSurroundFeature autoSurroundFeature = new AutoSurroundFeature();
 	public final AutoTotemFeature autoTotemFeature = new AutoTotemFeature();
