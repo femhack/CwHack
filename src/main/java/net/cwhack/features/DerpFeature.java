@@ -10,7 +10,7 @@ import java.util.Random;
 public class DerpFeature extends Feature implements UpdateListener
 {
 
-	private Random random;
+	private final Random random;
 
 	public DerpFeature()
 	{

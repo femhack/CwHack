@@ -19,7 +19,6 @@ public class ElytraBoostFeature extends Feature implements UpdateListener
 	public ElytraBoostFeature()
 	{
 		super("ElytraBoost", "fly me to the moon");
-		addSetting(speed);
 	}
 
 	@Override

@@ -19,16 +19,14 @@ import static net.cwhack.CwHack.MC;
 public class AimAssistFeature extends Feature implements UpdateListener, RenderListener
 {
 
-	private DecimalSetting range = new DecimalSetting("range", "the range the aimbot will work", 4, this);
-	private DecimalSetting speed = new DecimalSetting("speed", "the speed your head will turn", 1, this);
+	private final DecimalSetting range = new DecimalSetting("range", "the range the aimbot will work", 4, this);
+	private final DecimalSetting speed = new DecimalSetting("speed", "the speed your head will turn", 1, this);
 
 	private Entity target;
 
 	public AimAssistFeature()
 	{
 		super("AimAssist", "automatically aims for you");
-		addSetting(range);
-		addSetting(speed);
 	}
 
 	@Override

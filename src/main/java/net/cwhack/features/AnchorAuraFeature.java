@@ -47,9 +47,6 @@ public class AnchorAuraFeature extends Feature implements UpdateListener, Render
 	public AnchorAuraFeature()
 	{
 		super("AnchorAura", "anchor anchor meow meow meow");
-		addSetting(range);
-		addSetting(maxSelfDamage);
-		addSetting(cooldown);
 	}
 
 	@Override

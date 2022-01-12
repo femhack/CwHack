@@ -29,8 +29,6 @@ public class CwCrystalRewriteFeature extends Feature implements UpdateListener
 	public CwCrystalRewriteFeature()
 	{
 		super("CwCrystalRewrite", "rewriting for vulcan bypass");
-		addSetting(crystalPlaceInterval);
-		addSetting(crystalBreakInterval);
 	}
 
 	@Override

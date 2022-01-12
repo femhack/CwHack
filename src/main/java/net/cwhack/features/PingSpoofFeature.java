@@ -15,14 +15,13 @@ import static net.cwhack.CwHack.MC;
 public class PingSpoofFeature extends Feature implements PacketOutputListener, PacketInputListener
 {
 
-	private IntegerSetting ping = new IntegerSetting("ping", "the ping that will be added onto your current ping", 0, this);
+	private final IntegerSetting ping = new IntegerSetting("ping", "the ping that will be added onto your current ping", 0, this);
 
-	private ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1000);
+	private final ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1000);
 
 	public PingSpoofFeature()
 	{
-		super("PingSpoof", "delay all of your outgoing and incoming packets");
-		addSetting(ping);
+		super("PingSpoof", "delay all of your outgoing");
 	}
 
 	@Override

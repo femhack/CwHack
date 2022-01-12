@@ -19,29 +19,15 @@ public class StrafeFeature extends Feature implements UpdateListener, PlayerJump
 
 	private int clock = 0;
 
-	private double distance = 0;
-	private double speed = 0;
-	private int state = 0;
-
 	public StrafeFeature()
 	{
 		super("Strafe", "strafe");
-		addSetting(ncpSpeed);
-		addSetting(disableAfter);
-	}
-
-	private void reset()
-	{
-		state = 0;
-		distance = 0;
-		speed = 0.2873;
 	}
 
 	@Override
 	protected void onEnable()
 	{
 		clock = 0;
-		reset();
 		eventManager.add(UpdateListener.class, this);
 		eventManager.add(PlayerJumpListener.class, this);
 	}

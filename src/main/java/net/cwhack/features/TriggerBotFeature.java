@@ -16,10 +16,10 @@ import static net.cwhack.CwHack.MC;
 public class TriggerBotFeature extends Feature implements UpdateListener
 {
 
-	private DecimalSetting cooldown = new DecimalSetting("cooldown", "the required cooldown progress for the next attack", 1, this);
+	private final DecimalSetting cooldown = new DecimalSetting("cooldown", "the required cooldown progress for the next attack", 1, this);
 
-	private BooleanSetting attackInAir = new BooleanSetting("attackInAir", "whether or not to attack target when they are in mid air", true, this);
-	private BooleanSetting attackOnJump = new BooleanSetting("attackOnJump", "whether or not to attack when you are jumping", true, this);
+	private final BooleanSetting attackInAir = new BooleanSetting("attackInAir", "whether or not to attack target when they are in mid air", true, this);
+	private final BooleanSetting attackOnJump = new BooleanSetting("attackOnJump", "whether or not to attack when you are jumping", true, this);
 
 	public TriggerBotFeature()
 	{

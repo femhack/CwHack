@@ -19,7 +19,7 @@ public abstract class Feature
 	private boolean enabled = false;
 	protected EventManager eventManager = CwHack.CWHACK.getEventManager();
 
-	private HashMap<String, Setting> settings;
+	private final HashMap<String, Setting<?>> settings;
 
 	public Feature(String name, String description)
 	{
@@ -62,7 +62,7 @@ public abstract class Feature
 		return description;
 	}
 
-	public Setting getSetting(String name)
+	public Setting<?> getSetting(String name)
 	{
 		return settings.get(name);
 	}
@@ -72,7 +72,7 @@ public abstract class Feature
 		return settings.keySet();
 	}
 
-	public Collection<Setting> getSettings()
+	public Collection<Setting<?>> getSettings()
 	{
 		return settings.values();
 	}
@@ -87,7 +87,7 @@ public abstract class Feature
 		return new FeatureSettingScreen(MC.currentScreen, this);
 	}
 
-	protected void addSetting(Setting setting)
+	public void addSetting(Setting<?> setting)
 	{
 		settings.put(setting.getName().toLowerCase(), setting);
 	}
@@ -102,7 +102,7 @@ public abstract class Feature
 
 	}
 
-	public void onChangeSetting(Setting setting)
+	public void onChangeSetting(Setting<?> setting)
 	{
 
 	}

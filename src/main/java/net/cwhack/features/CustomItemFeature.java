@@ -23,9 +23,6 @@ public class CustomItemFeature extends Feature implements UpdateListener
 	public CustomItemFeature()
 	{
 		super("CustomItem", "uses custom NBT to create item under creative mode");
-		addSetting(itemName);
-		addSetting(nbt);
-		addSetting(count);
 	}
 
 	@Override

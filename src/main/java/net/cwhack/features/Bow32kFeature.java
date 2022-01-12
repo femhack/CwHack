@@ -17,7 +17,6 @@ public class Bow32kFeature extends Feature implements StopUsingItemListener, Sen
 	public Bow32kFeature()
 	{
 		super("Bow32k", "one shot someone with bow");
-		addSetting(power);
 	}
 
 	@Override

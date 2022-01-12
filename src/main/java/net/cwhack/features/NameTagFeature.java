@@ -23,14 +23,13 @@ import static net.cwhack.CwHack.MC;
 public class NameTagFeature extends Feature implements RenderListener, GUIRenderListener, RenderNameTagListener, UpdateListener
 {
 
-	private DecimalSetting scale = new DecimalSetting("scale", "scale of the nametags", 1.0, this);
+	private final DecimalSetting scale = new DecimalSetting("scale", "scale of the nametags", 1.0, this);
 
 	private ArrayList<Entity> players = new ArrayList<>();
 
 	public NameTagFeature()
 	{
 		super("NameTag", "display armor and holding item of players");
-		addSetting(scale);
 	}
 
 	@Override

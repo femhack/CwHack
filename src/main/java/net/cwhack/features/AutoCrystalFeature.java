@@ -42,9 +42,6 @@ public class AutoCrystalFeature extends Feature implements UpdateListener, KeyPr
 	public AutoCrystalFeature()
 	{
 		super("AutoCrystal", "hvh bot");
-		addSetting(killAuraHotkey);
-		addSetting(gapHotkey);
-		addSetting(chorusHotkey);
 	}
 
 	@Override

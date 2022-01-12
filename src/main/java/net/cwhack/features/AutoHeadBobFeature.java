@@ -25,11 +25,6 @@ public class AutoHeadBobFeature extends Feature implements FrameBeginListener
 	public AutoHeadBobFeature()
 	{
 		super("AutoHeadBob", "bob your head like ceeew when crystalling, useful on high ping");
-		addSetting(amplitude);
-		addSetting(frequency);
-		addSetting(verticalRandomness);
-		addSetting(horizontalRandomness);
-		addSetting(randomness);
 	}
 
 	private long startTime = 0;

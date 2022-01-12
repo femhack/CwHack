@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class FeatureListFeature extends Feature implements GUIRenderListener
 {
-	private DecimalSetting scale = new DecimalSetting("scale", "scale of the text", 2.0, this);
+	private final DecimalSetting scale = new DecimalSetting("scale", "scale of the text", 2.0, this);
 
 	private int textColor = 0x049933ff;
 	private int posY;
@@ -18,7 +18,6 @@ public class FeatureListFeature extends Feature implements GUIRenderListener
 	public FeatureListFeature()
 	{
 		super("FeatureList", "display a list of enabled feature on the screen");
-		addSetting(scale);
 	}
 
 	@Override

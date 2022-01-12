@@ -13,6 +13,7 @@ public abstract class Setting<T>
 		this.name = name;
 		this.description = description;
 		this.feature = feature;
+		feature.addSetting(this);
 	}
 
 	public String getName()

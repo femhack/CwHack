@@ -44,7 +44,6 @@ public class AutoCityFeature extends Feature implements UpdateListener, RenderLi
 	public AutoCityFeature()
 	{
 		super("AutoCity", "Automatically break blocks around someone");
-		addSetting(range);
 	}
 
 	@Override

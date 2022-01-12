@@ -10,7 +10,7 @@ import java.util.ArrayDeque;
 public class BlinkFeature extends Feature implements PacketOutputListener
 {
 
-	private ArrayDeque<PlayerMoveC2SPacket> throttledPackets = new ArrayDeque<>();
+	private final ArrayDeque<PlayerMoveC2SPacket> throttledPackets = new ArrayDeque<>();
 
 	public BlinkFeature()
 	{

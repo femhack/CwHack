@@ -62,22 +62,12 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	public CrystalAuraFeature()
 	{
 		super("CrystalAura", "Automatically place and break crystal around your enemy");
-		addSetting(crystalBreakDelay);
-		addSetting(crystalBreakInterval);
-		addSetting(unmarkBrokenCrystalDelay);
-		addSetting(crystalPlaceInterval);
-		addSetting(placeRange);
-		addSetting(breakRange);
-		addSetting(maxSelfDamage);
-		addSetting(minDamage);
-		addSetting(allowSuicide);
-		addSetting(facePlaceHotkey);
-		eventManager.add(UpdateListener.class, this, 100);
 	}
 
 	@Override
 	protected void onEnable()
 	{
+		eventManager.add(UpdateListener.class, this, 100);
 		eventManager.add(KeyPressListener.class, this);
 		eventManager.add(PostMotionListener.class, this);
 		eventManager.add(RenderListener.class, this);
@@ -88,6 +78,7 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	@Override
 	protected void onDisable()
 	{
+		eventManager.remove(UpdateListener.class, this);
 		eventManager.remove(KeyPressListener.class, this);;
 		eventManager.remove(PostMotionListener.class, this);
 		eventManager.remove(RenderListener.class, this);
@@ -103,9 +94,6 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	public void onUpdate()
 	{
 		placingOn = null;
-
-		if (!isEnabled())
-			return;
 
 		if (!overridingTarget)
 			target = findTarget();

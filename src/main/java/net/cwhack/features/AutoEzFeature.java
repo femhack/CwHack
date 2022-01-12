@@ -16,8 +16,6 @@ public class AutoEzFeature extends Feature implements PacketInputListener
 	public AutoEzFeature()
 	{
 		super("AutoEz", "Automatically put a specific line of text in chat after someone pops or dies");
-		addSetting(ezpop);
-		addSetting(ggez);
 	}
 
 	@Override

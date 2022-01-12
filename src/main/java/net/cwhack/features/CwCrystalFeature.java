@@ -49,10 +49,6 @@ public class CwCrystalFeature extends Feature implements UpdateListener, PostMot
 	public CwCrystalFeature()
 	{
 		super("CwCrystal", "Automatically place and break nearby crystals");
-		addSetting(range);
-		addSetting(maxAngle);
-		addSetting(cooldown);
-		addSetting(placeDelay);
 	}
 
 	@Override

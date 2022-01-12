@@ -32,9 +32,6 @@ public class KillAuraFeature extends Feature implements UpdateListener, PostMoti
 	public KillAuraFeature()
 	{
 		super("KillAura", "killaura");
-		addSetting(range);
-		addSetting(critical);
-		addSetting(cooldown);
 	}
 
 	@Override

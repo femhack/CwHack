@@ -12,7 +12,6 @@ public class AutoCopeFeature extends Feature implements PacketInputListener
 	public AutoCopeFeature()
 	{
 		super("AutoCope", "Automatically sends an excuse in game chat when you die");
-		addSetting(cope);
 	}
 
 	@Override

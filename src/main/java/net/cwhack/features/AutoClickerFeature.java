@@ -43,7 +43,7 @@ public class AutoClickerFeature extends Feature
 	}
 
 	@Override
-	public void onChangeSetting(Setting setting)
+	public void onChangeSetting(Setting<?> setting)
 	{
 		if (setting == interval && isEnabled())
 		{

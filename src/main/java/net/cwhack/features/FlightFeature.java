@@ -28,8 +28,6 @@ public class FlightFeature extends Feature implements UpdateListener, SendMoveme
 	public FlightFeature()
 	{
 		super("Flight", "reeee");
-		addSetting(speed);
-		addSetting(bypass);
 	}
 
 	@Override
