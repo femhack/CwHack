@@ -2,10 +2,12 @@ package net.cwhack.utils;
 
 import net.cwhack.CwHack;
 import net.cwhack.RotationFaker;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+
+import static net.cwhack.CwHack.MC;
 
 // copied from wurst
 
@@ -15,8 +17,11 @@ public enum RotationUtils
 
 	public static Vec3d getEyesPos()
 	{
-		ClientPlayerEntity player = CwHack.MC.player;
+		return getEyesPos(MC.player);
+	}
 
+	public static Vec3d getEyesPos(PlayerEntity player)
+	{
 		return new Vec3d(player.getX(),
 				player.getY() + player.getEyeHeight(player.getPose()),
 				player.getZ());
@@ -27,9 +32,8 @@ public enum RotationUtils
 		return new BlockPos(getEyesPos());
 	}
 
-	public static Vec3d getClientLookVec()
+	public static Vec3d getPlayerLookVec(PlayerEntity player)
 	{
-		ClientPlayerEntity player = CwHack.MC.player;
 		float f = 0.017453292F;
 		float pi = (float)Math.PI;
 
@@ -39,6 +43,11 @@ public enum RotationUtils
 		float f4 = MathHelper.sin(-player.getPitch() * f);
 
 		return new Vec3d(f2 * f3, f4, f1 * f3).normalize();
+	}
+
+	public static Vec3d getClientLookVec()
+	{
+		return getPlayerLookVec(MC.player);
 	}
 
 	public static Vec3d getServerLookVec()
@@ -88,9 +97,13 @@ public enum RotationUtils
 
 	public static double getAngleToLookVec(Vec3d vec)
 	{
+		return getAngleToLookVec(MC.player, vec);
+	}
+
+	public static double getAngleToLookVec(PlayerEntity player, Vec3d vec)
+	{
 		Rotation needed = getNeededRotations(vec);
 
-		ClientPlayerEntity player = CwHack.MC.player;
 		float currentYaw = MathHelper.wrapDegrees(player.getYaw());
 		float currentPitch = MathHelper.wrapDegrees(player.getPitch());
 

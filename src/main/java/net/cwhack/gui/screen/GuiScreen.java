@@ -32,13 +32,13 @@ public class GuiScreen extends Screen
 	@Override
 	public void init()
 	{
-		searchText = new TextFieldWidget(MC.textRenderer, 200, 50, 400, 20, new LiteralText(""));
+		searchText = new TextFieldWidget(MC.textRenderer, width / 2 - 75, 25, 150, 20, new LiteralText(""));
 		addSelectableChild(searchText);
 		setInitialFocus(searchText);
 		searchText.setTextFieldFocused(true);
-		ButtonWidget configButton = new ButtonWidget(width / 3 * 2, 50, 200, 20, new LiteralText("Configs..."), b -> MC.setScreen(new ConfigScreen(this)));
+		ButtonWidget configButton = new ButtonWidget(50, 25, 100, 20, new LiteralText("Configs..."), b -> MC.setScreen(new ConfigScreen(this)));
 		addDrawableChild(configButton);
-		ButtonWidget keybindButton = new ButtonWidget(width / 3 * 2, 80, 200, 20, new LiteralText("Keybinds..."), b -> MC.setScreen(new KeybindScreen(this)));
+		ButtonWidget keybindButton = new ButtonWidget(width - 150, 25, 100, 20, new LiteralText("Keybinds..."), b -> MC.setScreen(new KeybindScreen(this)));
 		addDrawableChild(keybindButton);
 	}
 
@@ -58,19 +58,21 @@ public class GuiScreen extends Screen
 		});
 		foundFeatureNames.sort(Comparator.naturalOrder());
 		foundFeatureNames.forEach(e -> foundFeatures.add(features.getFeature(e)));
+		final int endY = 8;
 		var ref = new Object()
 		{
-			int x = 200;
-			int y = 100;
+			int x;
+			int y = 75;
 		};
+		ref.x = width / 2 - 50 - foundFeatures.size() / ((height - ref.y + endY) / 16) * 50;
 		foundFeatures.forEach(e ->
 		{
 			feature2pos.put(e, new int[]{ref.x, ref.y});
 			ref.y += 16;
-			if (ref.y + 8 >= height)
+			if (ref.y + endY > height)
 			{
 				ref.x += 100;
-				ref.y = 100;
+				ref.y = 75;
 			}
 		});
 	}
@@ -121,6 +123,7 @@ public class GuiScreen extends Screen
 				});
 				if (ref.isOnFeature != null)
 					MC.setScreen(ref.isOnFeature.getSettingScreen());
+				return true;
 			}
 			case 1 -> {
 				var ref = new Object()
@@ -136,11 +139,12 @@ public class GuiScreen extends Screen
 				});
 				if (ref.isOnFeature != null)
 					ref.isOnFeature.toggle();
+				return true;
 			}
 			default -> {
+				return super.mouseReleased(mouseX, mouseY, button);
 			}
 		}
-		return super.mouseReleased(mouseX, mouseY, button);
 	}
 
 	@Override
@@ -169,7 +173,7 @@ public class GuiScreen extends Screen
 
 	private boolean isHoveringOver(int mouseX, int mouseY, int x1, int y1, int x2, int y2)
 	{
-		return mouseX >= Math.min(x1, x2) && mouseX <= Math.max(x1, x2) && mouseY >= Math.min(y1, y2) && mouseY <= Math.max(y1, y2);
+		return mouseX > Math.min(x1, x2) && mouseX < Math.max(x1, x2) && mouseY > Math.min(y1, y2) && mouseY < Math.max(y1, y2);
 	}
 
 	@Override
