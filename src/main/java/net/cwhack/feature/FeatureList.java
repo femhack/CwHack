@@ -46,10 +46,12 @@ public class FeatureList
 	public final CwHackPostfixFeature cwHackPostfixFeature = new CwHackPostfixFeature();
 	public final DerpFeature derpFeature = new DerpFeature();
 	public final ElytraBoostFeature elytraBoostFeature = new ElytraBoostFeature();
+	public final EntityEspFeature entityEspFeature = new EntityEspFeature();
 	public final FastBreakFeature fastBreakFeature = new FastBreakFeature();
 	public final FeatureListFeature featureListFeature = new FeatureListFeature();
 	public final FlightFeature flightFeature = new FlightFeature();
 	public final FreecamFeature freecamFeature = new FreecamFeature();
+	public final GhostHandFeature ghostHandFeature = new GhostHandFeature();
 	public final HoleEspFeature holeEspFeature = new HoleEspFeature();
 	public final KillAuraFeature killAuraFeature = new KillAuraFeature();
 	public final NameTagFeature nameTagFeature = new NameTagFeature();
@@ -64,6 +66,7 @@ public class FeatureList
 	public final StasisExploitFeature stasisExploitFeature = new StasisExploitFeature();
 	public final StepFeature stepFeature = new StepFeature();
 	public final StrafeFeature strafeFeature = new StrafeFeature();
+	public final StorageEspFeature storageEspFeature = new StorageEspFeature();
 	public final SurroundFeature surroundFeature = new SurroundFeature();
 	public final TriggerBotFeature triggerBotFeature = new TriggerBotFeature();
 	public final VelocityFeature velocityFeature = new VelocityFeature();

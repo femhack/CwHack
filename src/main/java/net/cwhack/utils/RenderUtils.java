@@ -45,16 +45,16 @@ public enum RenderUtils
 
 	public static Vec3d getRenderLookVec(double partialTicks)
 	{
-		float f = 0.017453292F;
-		float pi = (float)Math.PI;
+		double f = 0.017453292;
+		double pi = Math.PI;
 
-		float yaw = MathHelper.lerp((float) partialTicks, MC.player.prevYaw, MC.player.getYaw());
-		float pitch = MathHelper.lerp((float) partialTicks, MC.player.prevPitch, MC.player.getPitch());
+		double yaw = MathHelper.lerp(partialTicks, MC.player.prevYaw, MC.player.getYaw());
+		double pitch = MathHelper.lerp(partialTicks, MC.player.prevPitch, MC.player.getPitch());
 
-		float f1 = MathHelper.cos(-yaw * f - pi);
-		float f2 = MathHelper.sin(-yaw * f - pi);
-		float f3 = -MathHelper.cos(-pitch * f);
-		float f4 = MathHelper.sin(-pitch * f);
+		double f1 = Math.cos(-yaw * f - pi);
+		double f2 = Math.sin(-yaw * f - pi);
+		double f3 = -Math.cos(-pitch * f);
+		double f4 = Math.sin(-pitch * f);
 
 		return new Vec3d(f2 * f3, f4, f1 * f3).normalize();
 	}

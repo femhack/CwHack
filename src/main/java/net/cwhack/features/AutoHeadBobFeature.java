@@ -75,9 +75,11 @@ public class AutoHeadBobFeature extends Feature implements FrameBeginListener
 		if (horizontalRandomness.getValue())
 			h += random;
 
-		float pitch = MC.player.getPitch();
-		float yaw = MC.player.getYaw();
-		MC.player.setPitch(pitch + (float) g);
-		MC.player.setYaw(yaw + (float) h);
+		MC.player.changeLookDirection(h, g);
+
+//		float pitch = MC.player.getPitch();
+//		float yaw = MC.player.getYaw();
+//		MC.player.setPitch(pitch + (float) g);
+//		MC.player.setYaw(yaw + (float) h);
 	}
 }

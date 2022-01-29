@@ -15,6 +15,7 @@ import static net.cwhack.CwHack.MC;
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin
 {
+
 	@Inject(method = "addEntityPrivate", at = @At("TAIL"))
 	private void onAddEntityPrivate(int id, Entity entity, CallbackInfo info) {
 		if (entity != null)
@@ -27,4 +28,5 @@ public class ClientWorldMixin
 		if (entity != null)
 			EventManager.fire(new EntityDespawnEvent(entity));
 	}
+
 }

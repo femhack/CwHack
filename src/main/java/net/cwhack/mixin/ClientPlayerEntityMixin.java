@@ -146,7 +146,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		EventManager.fire(new UpdateEvent());
 	}
 
-	@Inject(at = @At(value = "HEAD"), method = "tick()V")
+	@Inject(at = @At(value = "INVOKE",
+			target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V",
+			ordinal = 0, shift = At.Shift.AFTER), method = "tick()V")
 	private void onPostTick(CallbackInfo ci)
 	{
 		EventManager.fire(new PostUpdateEvent());

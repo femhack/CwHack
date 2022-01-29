@@ -13,6 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Comparator;
+import java.util.stream.StreamSupport;
 
 import static net.cwhack.CwHack.CWHACK;
 import static net.cwhack.CwHack.MC;
@@ -51,10 +52,11 @@ public class KillAuraFeature extends Feature implements UpdateListener, PostMoti
 
 	private Entity findTarget()
 	{
-		return MC.world.getPlayers().stream()
+		return StreamSupport.stream(MC.world.getEntities().spliterator(), true)
 				.filter(e -> e != MC.player)
-				.filter(LivingEntity::isAlive)
-				.filter(e -> e.getHealth() > 0.0f)
+				.filter(e -> e instanceof LivingEntity)
+				.filter(e -> ((LivingEntity) e).getHealth() > 0.0f)
+				.filter(e -> e.squaredDistanceTo(MC.player) <= range.getValue() * range.getValue())
 				.min(Comparator.comparingDouble(e -> RotationUtils.getAngleToLookVec(e.getBoundingBox().getCenter()))).orElse(null);
 	}
 

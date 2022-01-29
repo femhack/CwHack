@@ -1,11 +1,12 @@
 package net.cwhack.features;
 
-import net.cwhack.CwHack;
 import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import java.util.Random;
+
+import static net.cwhack.CwHack.CWHACK;
+import static net.cwhack.CwHack.MC;
 
 public class DerpFeature extends Feature implements UpdateListener
 {
@@ -33,8 +34,8 @@ public class DerpFeature extends Feature implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		float yaw = CwHack.MC.player.getYaw() + random.nextFloat() * 180.0f - 90.0f;
+		float yaw = MC.player.getYaw() + random.nextFloat() * 180.0f - 90.0f;
 		float pitch = random.nextFloat() * 180.0f - 90.0f;
-		CwHack.MC.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, CwHack.MC.player.isOnGround()));
+		CWHACK.getRotationFaker().setServerLookAngle(yaw, pitch);
 	}
 }

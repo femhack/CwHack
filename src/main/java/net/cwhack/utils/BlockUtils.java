@@ -3,6 +3,7 @@ package net.cwhack.utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -195,5 +196,11 @@ public enum BlockUtils
 		if (bl)
 			MC.player.swingHand(Hand.MAIN_HAND);
 		return bl;
+	}
+
+	public static boolean isContainer(BlockPos pos)
+	{
+		Block block = getBlock(pos);
+		return block == Blocks.CHEST || block == Blocks.TRAPPED_CHEST || block == Blocks.BARREL || block instanceof ShulkerBoxBlock;
 	}
 }

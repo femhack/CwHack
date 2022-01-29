@@ -1,6 +1,9 @@
 package net.cwhack.features;
 
-import net.cwhack.events.*;
+import net.cwhack.events.PlayerJumpListener;
+import net.cwhack.events.PlayerTickMovementListener;
+import net.cwhack.events.SetOpaqueCubeListener;
+import net.cwhack.events.UpdateListener;
 import net.cwhack.feature.Feature;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -8,7 +11,7 @@ import net.minecraft.util.math.Box;
 
 import static net.cwhack.CwHack.MC;
 
-public class PearlPhaseFeature extends Feature implements UpdateListener, PlayerTickMovementListener, IsFullCubeListener, SetOpaqueCubeListener, PlayerJumpListener
+public class PearlPhaseFeature extends Feature implements UpdateListener, PlayerTickMovementListener, SetOpaqueCubeListener, PlayerJumpListener
 {
 
 	public PearlPhaseFeature()
@@ -21,7 +24,6 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 	{
 		eventManager.add(UpdateListener.class, this);
 		eventManager.add(PlayerTickMovementListener.class, this);
-		eventManager.add(IsFullCubeListener.class, this);
 		eventManager.add(SetOpaqueCubeListener.class, this);
 		eventManager.add(PlayerJumpListener.class, this);
 	}
@@ -31,16 +33,9 @@ public class PearlPhaseFeature extends Feature implements UpdateListener, Player
 	{
 		eventManager.remove(UpdateListener.class, this);
 		eventManager.remove(PlayerTickMovementListener.class, this);
-		eventManager.remove(IsFullCubeListener.class, this);
 		eventManager.remove(SetOpaqueCubeListener.class, this);
 		eventManager.remove(PlayerJumpListener.class, this);
 		MC.player.noClip = false;
-	}
-
-	@Override
-	public void onIsFullCube(IsFullCubeEvent event)
-	{
-		event.cancel();
 	}
 
 	@Override

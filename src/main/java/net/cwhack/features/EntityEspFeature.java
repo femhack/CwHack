@@ -7,24 +7,25 @@ import net.cwhack.feature.Feature;
 import net.cwhack.utils.RenderUtils;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.*;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-import static net.cwhack.CwHack.CWHACK;
 import static net.cwhack.CwHack.MC;
 
-public class PlayerEspFeature extends Feature implements UpdateListener, RenderListener
+public class EntityEspFeature extends Feature implements UpdateListener, RenderListener
 {
+	private ArrayList<Entity> entities;
 
-	private ArrayList<PlayerEntity> players;
-
-	public PlayerEspFeature()
+	public EntityEspFeature()
 	{
-		super("PlayerESP", "render a tracer and a box at each players");
+		super("EntityESP", "render a tracer and a box at each entities");
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 	@Override
 	public void onRender(RenderEvent event)
 	{
-		if (players == null)
+		if (entities == null)
 			return;
 
 		MatrixStack matrixStack = event.getMatrixStack();
@@ -62,7 +63,7 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 		int regionX = (camPos.getX() >> 9) * 512;
 		int regionZ = (camPos.getZ() >> 9) * 512;
 
-		for (PlayerEntity e : players)
+		for (Entity e : entities)
 		{
 			float f = 4.0f / MC.player.distanceTo(e);
 
@@ -81,9 +82,6 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 
 			matrixStack.scale(e.getWidth(), e.getHeight(), e.getWidth());
 
-			if (CWHACK.getFriendList().isFriend(e))
-				RenderSystem.setShaderColor(0.4f, 1.0f, 0.4f, 0.5f);
-
 			Box bb = new Box(-0.5, 0, -0.5, 0.5, 1, 0.5);
 			RenderUtils.drawOutlinedBox(bb, matrixStack);
 
@@ -92,7 +90,7 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 
 		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
 
-		for (PlayerEntity e : players)
+		for (Entity e : entities)
 		{
 			Vec3d translation = e.getBoundingBox().getCenter()
 					.subtract(new Vec3d(e.getX(), e.getY(), e.getZ())
@@ -109,9 +107,6 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 			Vec3d color = red.multiply(f).add(blue.multiply(1.0 - f));
 
 			RenderSystem.setShaderColor((float) color.x, (float) color.y, (float) color.z, 0.5f);
-			if (CWHACK.getFriendList().isFriend(e))
-				RenderSystem.setShaderColor(0.4f, 1.0f, 0.4f, 0.5f);
-
 			bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 
 			matrixStack.push();
@@ -135,10 +130,12 @@ public class PlayerEspFeature extends Feature implements UpdateListener, RenderL
 	@Override
 	public void onUpdate()
 	{
-		players = MC.world.getPlayers().parallelStream()
-				.filter(e -> e != MC.player)
+		entities = StreamSupport.stream(MC.world.getEntities().spliterator(), true)
+				.filter(e -> !(e instanceof PlayerEntity))
 				.filter(e -> !e.isRemoved())
-				.filter(e -> !e.isDead())
+				.filter(e -> !(e instanceof LivingEntity) || !((LivingEntity) e).isDead())
+				//.filter(e -> !(e instanceof ItemEntity))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
+
 }

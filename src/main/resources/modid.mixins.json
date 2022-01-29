@@ -21,7 +21,8 @@
     "LivingEntityRendererMixin",
     "Matrix4fMixin",
     "MinecraftClientMixin",
-    "MouseMixin"
+    "MouseMixin",
+    "WorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
