@@ -1,9 +1,12 @@
 package net.cwhack.mixin;
 
-import net.cwhack.event.EventManager;
+import net.cwhack.events.AttackEntityListener.AttackEntityEvent;
 import net.cwhack.events.StopUsingItemListener.StopUsingItemEvent;
 import net.cwhack.mixinterface.IClientPlayerInteractionManager;
+import net.cwhack.utils.MixinUtils;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,9 +51,12 @@ public class ClientPlayerInteractionManagerMixin implements IClientPlayerInterac
 	@Inject(method = "stopUsingItem(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"), cancellable = true)
 	private void onStopUsingItem(CallbackInfo ci)
 	{
-		StopUsingItemEvent event = new StopUsingItemEvent();
-		EventManager.fire(event);
-		if (event.isCancelled())
-			ci.cancel();
+		MixinUtils.fireCancellableEvent(new StopUsingItemEvent(), ci);
+	}
+
+	@Inject(method = "attackEntity(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
+	private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci)
+	{
+		MixinUtils.fireCancellableEvent(new AttackEntityEvent(player, target), ci);
 	}
 }

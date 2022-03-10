@@ -8,11 +8,14 @@ import net.cwhack.events.IsPlayerTouchingWaterListener.IsPlayerTouchingWaterEven
 import net.cwhack.events.PlayerJumpListener.PlayerJumpEvent;
 import net.cwhack.events.PlayerMoveListener.PlayerMoveEvent;
 import net.cwhack.events.PlayerTickMovementListener.PlayerTickMovementEvent;
+import net.cwhack.events.PostActionListener.PostActionEvent;
 import net.cwhack.events.PostMotionListener.PostMotionEvent;
 import net.cwhack.events.PostUpdateListener.PostUpdateEvent;
+import net.cwhack.events.PreActionListener.PreActionEvent;
 import net.cwhack.events.PreMotionListener.PreMotionEvent;
 import net.cwhack.events.SendMovementPacketsListener.SendMovementPacketsEvent;
 import net.cwhack.events.UpdateListener.UpdateEvent;
+import net.cwhack.utils.MixinUtils;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -123,13 +126,18 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		SendMovementPacketsEvent event = new SendMovementPacketsEvent();
 		EventManager.fire(event);
 		if (event.isCancelled())
+		{
 			ci.cancel();
+			return;
+		}
+		MixinUtils.fireEvent(new PreActionEvent());
 	}
 
 	@Inject(at = {@At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isCamera()Z", shift = At.Shift.BEFORE)}, method = {"sendMovementPackets()V"})
 	private void onSendMovementPacketsHEAD(CallbackInfo ci)
 	{
-		EventManager.fire(new PreMotionEvent());
+		MixinUtils.fireEvent(new PostActionEvent());
+		MixinUtils.fireEvent(new PreMotionEvent());
 	}
 
 	@Inject(at = {@At("TAIL")}, method = {"sendMovementPackets()V"})
@@ -146,12 +154,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		EventManager.fire(new UpdateEvent());
 	}
 
-	@Inject(at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V",
-			ordinal = 0, shift = At.Shift.AFTER), method = "tick()V")
+	@Inject(at = @At(value = "TAIL"), method = "tick()V")
 	private void onPostTick(CallbackInfo ci)
 	{
-		EventManager.fire(new PostUpdateEvent());
+		EventManager.fire(new PostUpdateEvent()); // doesn't need to check if pos is loaded cuz on client side it always returns true
 	}
 
 	@Redirect(at = @At(value = "INVOKE",

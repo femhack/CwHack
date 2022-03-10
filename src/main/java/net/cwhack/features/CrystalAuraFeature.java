@@ -41,7 +41,7 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	private final IntegerSetting unmarkBrokenCrystalDelay = new IntegerSetting("unmarkBrokenCrystalDelay", "after a crystal is attacked, the crystalAttacked flag will be turned off again after this delay. Set to 0 to turn off.", 5, this);
 	private final IntegerSetting crystalPlaceInterval = new IntegerSetting("crystalPlaceInterval", "the speed of placing the crystals", 0, this);
 	private final DecimalSetting placeRange = new DecimalSetting("placeRange", "the attack and place range", 4.5, this);
-	private final DecimalSetting breakRange = new DecimalSetting("breakRange", "the attack and place range", 3, this);
+	private final DecimalSetting breakRange = new DecimalSetting("breakRange", "the attack and place range", 4, this);
 	private final DecimalSetting maxSelfDamage = new DecimalSetting("maxSelfDamage", "the maximum damage allowed to deal to yourself", 8, this);
 	private final DecimalSetting minDamage = new DecimalSetting("minDamage", "the minimum damage allowed to deal to your enemy", 8, this);
 	private final IntegerSetting allowSuicide = new IntegerSetting("allowSuicide", "allow the crystal to pop yourself or kys", 0, this);
@@ -49,9 +49,11 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 
 	private boolean isFacePlacing = false;
 
-	private boolean attackCrystal = false;
+	private boolean attackingCrystal = false;
 	private Entity crystalToAttack = null;
-	private BlockPos placingOn = null;
+	private BlockHitResult placingOn = null;
+
+	private boolean placingCrystal = false;
 
 	private int crystalBreakClock;
 	private int crystalPlaceClock;
@@ -93,8 +95,6 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	@Override
 	public void onUpdate()
 	{
-		placingOn = null;
-
 		if (!overridingTarget)
 			target = findTarget();
 		if (target == null)
@@ -238,8 +238,7 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 					.max(Comparator.comparingDouble(block ->
 					{
 						Vec3d crystalPos = Vec3d.ofBottomCenter(block).add(0, 1, 0);
-						double targetDamage = DamageUtils.crystalDamage((PlayerEntity) target, crystalPos, true, null, false);
-						return targetDamage;
+						return DamageUtils.crystalDamage((PlayerEntity) target, crystalPos, true, null, false);
 					})).orElse(null);
 			if (blockToPlace != null)
 			{
@@ -254,7 +253,8 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 		Vec3d center = crystal.getBoundingBox().getCenter().add(0, -1, 0);
 		CWHACK.getRotationFaker().setServerLookPos(center);
 		crystalToAttack = crystal;
-		attackCrystal = true;
+		attackingCrystal = true;
+		CWHACK.getCrystalDataTracker().recordAttack(crystalToAttack);
 	}
 
 	public boolean placeCrystal(BlockPos block)
@@ -262,32 +262,18 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 		Vec3d eyesPos = RotationUtils.getEyesPos();
 		Vec3d posVec = Vec3d.ofCenter(block);
 		double distanceSqPosVec = eyesPos.squaredDistanceTo(posVec);
-
-		placingOn = block;
-
 		for(Direction side : Direction.values())
 		{
 			Vec3d hitVec = posVec.add(Vec3d.of(side.getVector()).multiply(0.5));
 			double distanceSqHitVec = eyesPos.squaredDistanceTo(hitVec);
-
 			// check if side is facing towards player
 			if(distanceSqHitVec >= distanceSqPosVec)
 				continue;
-
 			CWHACK.getRotationFaker().setServerLookPos(hitVec);
-
-			int slot = MC.player.getInventory().selectedSlot;
-
 			if (!InventoryUtils.selectItemFromHotbar(item -> item == Items.END_CRYSTAL))
 				return false;
-
-			ActionResult result = MC.interactionManager.interactBlock(MC.player, MC.world, Hand.MAIN_HAND, new BlockHitResult(hitVec, side, block, false));
-
-			if (result.isAccepted())
-				MC.player.swingHand(Hand.MAIN_HAND);
-
-			//MC.player.getInventory().selectedSlot = slot;
-
+			placingCrystal = true;
+			placingOn = new BlockHitResult(hitVec, side, block, false);
 			return true;
 		}
 
@@ -297,13 +283,19 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 	@Override
 	public void onPostMotion()
 	{
-		if (!attackCrystal)
-			return;
-
-		MC.interactionManager.attackEntity(MC.player, crystalToAttack);
-		MC.player.swingHand(Hand.MAIN_HAND);
-		CWHACK.getCrystalDataTracker().recordAttack(crystalToAttack);
-		attackCrystal = false;
+		if (attackingCrystal)
+		{
+			MC.interactionManager.attackEntity(MC.player, crystalToAttack);
+			MC.player.swingHand(Hand.MAIN_HAND);
+			attackingCrystal = false;
+		}
+		if (placingCrystal)
+		{
+			ActionResult result = MC.interactionManager.interactBlock(MC.player, MC.world, Hand.MAIN_HAND, placingOn);
+			if (result.isAccepted())
+				MC.player.swingHand(Hand.MAIN_HAND);
+			placingCrystal = false;
+		}
 	}
 
 	@Override
@@ -324,10 +316,11 @@ public class CrystalAuraFeature extends Feature implements UpdateListener, KeyPr
 
 		RenderSystem.setShader(GameRenderer::getPositionShader);
 
-		if (placingOn != null)
+		if (placingOn != null && placingCrystal)
 		{
+			BlockPos placingOnBlock = placingOn.getBlockPos();
 			matrixStack.push();
-			matrixStack.translate(placingOn.getX() - regionX, placingOn.getY(), placingOn.getZ() - regionZ);
+			matrixStack.translate(placingOnBlock.getX() - regionX, placingOnBlock.getY(), placingOnBlock.getZ() - regionZ);
 
 			RenderSystem.setShaderColor(0.4f, 1.0f, 0.4f, 0.4f);
 			RenderUtils.drawSolidBox(new Box(BlockPos.ORIGIN), matrixStack);

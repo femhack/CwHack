@@ -1,9 +1,6 @@
 package net.cwhack.utils;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -23,6 +20,20 @@ import static net.cwhack.CwHack.MC;
 public enum BlockUtils
 {
 	;
+
+	public static boolean isAnchorCharged(BlockPos anchor)
+	{
+		if (!isBlock(Blocks.RESPAWN_ANCHOR, anchor))
+			return false;
+		try
+		{
+			return BlockUtils.getBlockState(anchor).get(RespawnAnchorBlock.CHARGES) != 0;
+		}
+		catch (IllegalArgumentException e)
+		{
+			return false;
+		}
+	}
 
 	public static boolean canPlace(BlockState state, BlockPos pos)
 	{

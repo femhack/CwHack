@@ -35,6 +35,7 @@ public class FeatureList
 	public final AutoPearlFeature autoPearlFeature = new AutoPearlFeature();
 	public final AutoSurroundFeature autoSurroundFeature = new AutoSurroundFeature();
 	public final AutoTotemFeature autoTotemFeature = new AutoTotemFeature();
+	public final AutoWTapFeature autoWTapFeature = new AutoWTapFeature();
 	public final BlinkFeature blinkFeature = new BlinkFeature();
 	public final Bow32kFeature bow32kFeature = new Bow32kFeature();
 	public final CameraNoClipFeature cameraNoClipFeature = new CameraNoClipFeature();
@@ -47,6 +48,7 @@ public class FeatureList
 	public final DerpFeature derpFeature = new DerpFeature();
 	public final ElytraBoostFeature elytraBoostFeature = new ElytraBoostFeature();
 	public final EntityEspFeature entityEspFeature = new EntityEspFeature();
+	public final FakePlayerFeature fakePlayerFeature = new FakePlayerFeature();
 	public final FastBreakFeature fastBreakFeature = new FastBreakFeature();
 	public final FeatureListFeature featureListFeature = new FeatureListFeature();
 	public final FlightFeature flightFeature = new FlightFeature();
@@ -54,6 +56,7 @@ public class FeatureList
 	public final GhostHandFeature ghostHandFeature = new GhostHandFeature();
 	public final HoleEspFeature holeEspFeature = new HoleEspFeature();
 	public final KillAuraFeature killAuraFeature = new KillAuraFeature();
+	public final MarlowAnchorFeature marlowAnchorFeature = new MarlowAnchorFeature();
 	public final NameTagFeature nameTagFeature = new NameTagFeature();
 	public final NoFallFeature noFallFeature = new NoFallFeature();
 	public final NoOverlayFeature noOverlayFeature = new NoOverlayFeature();
